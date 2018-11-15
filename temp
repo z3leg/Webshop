@@ -1,0 +1,2 @@
+<a href="product.php?lang=<?=$_GET['lang']?>&uid=<?=$_GET['uid']?>">Svenska</a>
+<a href="product.php?lang=<?=$_GET['lang']?>&uid=<?=$_GET['uid']?>">English</a>

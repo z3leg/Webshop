@@ -1,0 +1,5 @@
+{
+    "require": {
+        "textalk/webshop-client": "^0.2.6"
+    }
+}
