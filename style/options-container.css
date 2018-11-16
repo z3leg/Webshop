@@ -1,0 +1,109 @@
+.options-container a:hover {
+    background:lightgrey;
+}
+
+
+#lang-dropdown {
+    text-align: center;
+    border-left:3px solid black;
+    padding:5px 10px;
+    background:white;
+    font-size: 100%;
+    font-weight: 900;
+    top:15px;
+    right: 5%;
+    position: relative;
+    position:fixed;
+    display: inline-block;
+    width: 12%;
+}
+
+.lang-dropdown-content {
+    border-left:3px solid black;
+    color:black;
+    display: none;
+    top:28px;
+    left:-3px;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    width: 82%;
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+#lang-dropdown:hover .lang-dropdown-content {
+    display: block;
+    color:black;
+    font-size: 15px;
+}
+
+.lang-dropdown-content a{
+    display: block;
+    color:black;
+    font-size: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+#currency-dropdown {
+    text-align: center;
+    border-left:3px solid black;
+    padding:5px 13px;
+    width: 10%;
+    background:white;
+    font-size: 100%;
+    font-weight: 900;
+    top:15px;
+    right: 25%;
+    position:fixed;
+    display: inline-block;
+}
+
+.currency-dropdown-content {
+    border-left:3px solid black;
+    color:black;
+    display: none;
+    top:28px;
+    left:-3px;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    width: 79%;
+}
+
+#currency-dropdown:hover .currency-dropdown-content {
+    display: block;
+    color:black;
+    font-size: 15px;
+}
+
+.currency-dropdown-content a{
+    display: block;
+    color:black;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+#searchbar input{
+    height: 27px;
+    widows: 20%;
+}
+
+#searchbar{
+    position: absolute;
+    position: fixed;
+    right:45%;
+    top: 15px;
+    border-left: 3px black solid;
+}

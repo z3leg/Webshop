@@ -30,22 +30,22 @@
         }
 
     ?>
-    <div class="options-container">
+    <div class="dropdown-container">
         <div id="lang-dropdown">
             <span>Language</span>
             <div class="lang-dropdown-content">
-                <a href="index.php?lang=<?='sv'?>&currency=<?=$currency?>">Svenska</a>
-                <a href="index.php?lang=<?='en'?>&currency=<?=$currency?>">English</a>
+                <a href="searched_products.php?lang=<?='sv'?>&currency=<?=$currency?>&name=<?=$_GET['search_name']?>">Svenska</a>
+                <a href="searched_products.php?lang=<?='en'?>&currency=<?=$currency?>&name=<?=$_GET['search_name']?>">English</a>
             </div>
         </div>
         <div id="currency-dropdown">
             <span><?=$currency?></span>
             <div class="currency-dropdown-content">
-                <?php 
+                <?php
                     $all_currencies = ['SEK', 'USD', 'NOK', 'GBP', 'EUR', 'CAD'];
                     foreach ($all_currencies as $currency) {
                         ?>
-                        <a href='index.php?lang=<?=$lang?>&currency=<?=$currency?>'><?=(string)$currency?></a>
+                        <a href='searched_products.php?lang=<?=$lang?>&currency=<?=$currency?>&search_name=<?=$_GET['search_name']?>'><?=(string)$currency?></a>
                 <?php } ?>
             </div>
         </div>
@@ -54,7 +54,7 @@
                 <input type="text" name="search_name" placeholder="Search.." method="GET">
             </form>
         </div>
-    </div>
+    </div>  
 
 
     <?php
@@ -88,36 +88,53 @@
 
 
     #SHOW ALL ARTICLES
+    $did_any_match = false;
+    $matches = (count($articles_from_query));
+    ?>
+    <!-- <div class="articles-found">    
+        <p>Found:  articles</p>
+    </div> -->
+    <?php
+
     foreach ($articles_from_query as $i => $current_article) {
 
-        #var_dump($current_article);
 
         $name = $current_article["name"][$lang];
-        $img_url = $current_article["images"][0];
 
-        if ($name == NULL) {
-            $name = $current_article["name"][$default_lang];
+        if (strpos(strtolower($name), strtolower($_GET['search_name'])) !== false){
+            $did_any_match = true;
+            $img_url = $current_article["images"][0];
+            
             if ($name == NULL) {
-                $name = "No product name";
+                $name = $current_article["name"][$default_lang];
+                if ($name == NULL) {
+                    $name = "No product name";
+                }
             }
-        }
-        if ($img_url == NULL) {
-            $img_url = "missing-items/No_Image_Available.png";
-        }
-
-
+            if ($img_url == NULL) {
+                $img_url = "missing-items/No_Image_Available.png";
+            }
+            
+            
+            
             ?>
-        <div class="container">
-            <a href="product.php?uid=<?=$current_article['uid']?>&lang=<?=$lang?>&currency=<?=$currency?>">
+            <div class="container">
+                <a href="product.php?uid=<?=$current_article['uid']?>&lang=<?=$lang?>&currency=<?=$currency?>">
                 <img src="<?= $img_url ?>" draggable="false" alt="<?= $name ?>" 
                 "/>
             </a>
             <h3> <?= $name ?> </h3>
             <br>
-        </div>
-    <?php }
-    // Show all information, defaults to INFO_ALL
-    # phpinfo();
-    ?>
+            </div>
+            <?php }
+            // Show all information, defaults to INFO_ALL
+            # phpinfo();
+        }
+        if ($did_any_match == false) {
+            ?>
+            <img src="missing-items/No_Image_Available.png" draggable="false" alt="No matches""
+            <?php
+        }
+        ?>
 </body>
 </html>
