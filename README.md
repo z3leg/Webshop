@@ -2,6 +2,4 @@
 
 ## To Install
 
-*php
-*make?
-*composer?
+* php 7.x or newer
