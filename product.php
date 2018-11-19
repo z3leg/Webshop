@@ -9,8 +9,63 @@
     <link rel="stylesheet" type="text/css" href="style/options-container.css">
 </head>
 <body>
+    <?php
+
+        $default_lang = 'sv';
+        $default_currency = 'SEK';
+
+        if ($_COOKIE['lang'] == NULL) { //No Cookie Found
+            if ($_GET['lang'] !== NULL) {
+                setcookie('lang', $_GET['lang'], time() + 86400, "/");
+                $lang = $_GET['lang'];
+            } else {
+                $lang = $default_lang;
+            }
+        } else { // Cookie Found
+            if ($_GET['lang'] == $_COOKIE['lang']) { // If get request is same as cookie
+                $lang = $_COOKIE['lang'];
+            } else { // If get request is different from the cookie
+                setcookie('lang', $_GET['lang'], time() + 86400, "/");
+                if ($_GET['lang'] == NULL) {
+                    $lang = $_COOKIE['lang'];
+                } else {
+                    $lang = $_GET['lang'];
+                }
+            }
+        }
+
+
+        if ($_COOKIE['currency'] == NULL) { //No Cookie Found
+            //echo "NO cookie Found";
+            if ($_GET['loop_currency'] !== NULL) {
+                setcookie('currency', $_GET['loop_currency'], time() + 86400, "/");
+                $currency = $_GET['loop_currency'];
+            } else {
+                $currency = $default_currency;
+            }
+        } else { // Cookie Found
+            //echo "cookie Found";
+            if ($_GET['loop_currency'] == $_COOKIE['currency']) { // If get request is same as cookie
+                $currency = $_COOKIE['currency'];
+            } else { // If get request is different from the cookie
+                if ($_GET['loop_currency'] == NULL) {
+                    //echo "GET was null";
+                    $currency = $_COOKIE['currency'];
+                } else {
+                    setcookie('currency', $_GET['loop_currency'], time() + 86400, "/");
+                   // echo "gettin currency from get request";
+                    $currency = $_GET['loop_currency'];
+                }
+            }
+        }
+        setcookie('currency', $currency, time() + 86400, "/");
+        setcookie('lang', $lang, time() + 86400, "/");
+
+       // var_dump($currency);
+
+    ?>
     <header id="main-header">
-        <a href="index.php?lang=<?=$_GET['lang']?>&currency=<?=$_GET['currency']?>">
+        <a href="index.php">
             Webshop
         </a>
     </header>
@@ -18,18 +73,18 @@
         <div id="lang-dropdown">
             <span>Language</span>
             <div class="lang-dropdown-content">
-                <a href="product.php?lang=sv&uid=<?=$_GET['uid']?>&currency=<?=$_GET['currency']?>">Svenska</a>
-                <a href="product.php?lang=en&uid=<?=$_GET['uid']?>&currency=<?=$_GET['currency']?>">English</a>
+                <a href="product.php?lang=sv&uid=<?=$_GET['uid']?>&currency=<?=$currency?>">Svenska</a>
+                <a href="product.php?lang=en&uid=<?=$_GET['uid']?>&currency=<?=$currency?>">English</a>
             </div>
         </div>
         <div id="currency-dropdown">
-            <span><?=$_GET['currency']?></span>
+            <span><?=$currency?></span>
             <div class="currency-dropdown-content">
                 <?php 
                     $all_currencies = ['SEK', 'USD', 'NOK', 'GBP', 'EUR', 'CAD'];
-                    foreach ($all_currencies as $currency) {
+                    foreach ($all_currencies as $this_currency) {
                         ?>
-                        <a href='product.php?lang=<?=$_GET['lang']?>&uid=<?=$_GET['uid']?>&currency=<?=$currency?>'><?=(string)$currency?></a>
+                        <a href='product.php?uid=<?=$_GET['uid']?>&currency=<?=$this_currency?>'><?=(string)$this_currency?></a>
                 <?php } ?>
             </div>
         </div>
@@ -48,8 +103,7 @@
     
     
     $uid = $_GET['uid'];
-    $lang = $_GET['lang'];
-    $currency = $_GET['currency'];
+    $lang = $_COOKIE['lang'];
     
     $current_article = $api->Article->get($uid);
 
@@ -75,6 +129,7 @@
     $img_width = 250 * 1.5;
     $img_height = 350 * 1.5;
 
+    var_dump($currency);
     ?>
    
    

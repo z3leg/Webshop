@@ -18,61 +18,17 @@
     <?php 
         $default_lang = 'sv';
         $default_currency = 'SEK';
-
-        if ($_COOKIE['lang'] == NULL) { //No Cookie Found
-            if ($_GET['lang'] !== NULL) {
-                setcookie('lang', $_GET['lang'], time() + 86400, "/");
-                $lang = $_GET['lang'];
-            } else {
-                $lang = $default_lang;
-            }
-        } else { // Cookie Found
-            if ($_GET['lang'] == $_COOKIE['lang']) { // If get request is same as cookie
-                $lang = $_COOKIE['lang'];
-            } else { // If get request is different from the cookie
-                setcookie('lang', $_GET['lang'], time() + 86400, "/");
-                if ($_GET['lang'] == NULL) {
-                    $lang = $_COOKIE['lang'];
-                } else {
-                    $lang = $_GET['lang'];
-                }
-            }
+        if ($_GET['lang'] == NULL) {
+            $lang = $default_lang;
+        } else {
+            $lang = $_GET['lang'];
+        }
+        if ($_GET['currency'] == NULL) {
+            $currency = $default_currency;
+        } else {
+            $currency = $_GET['currency'];
         }
 
-
-        if ($_COOKIE['currency'] == NULL) { //No Cookie Found
-            //echo "NO cookie Found";
-            if ($_GET['loop_currency'] !== NULL) {
-                
-                //setcookie('currency', $_GET['loop_currency'], time() + 86400, "/");
-                $currency = $_GET['loop_currency'];
-            } else {
-                $currency = $default_currency;
-            }
-        } else { // Cookie Found
-            //echo "cookie Found";
-            if ($_GET['loop_currency'] == $_COOKIE['currency']) { // If get request is same as cookie
-                $currency = $_COOKIE['currency'];
-            } else { // If get request is different from the cookie
-                if ($_GET['loop_currency'] == NULL) {
-                    $currency = $_COOKIE['currency'];
-                } else {
-                    setcookie('currency', $_GET['loop_currency'], time() + 86400, "/");
-                    $currency = $_GET['loop_currency'];
-                }
-            }
-        }
-        setcookie('currency', $currency, time() + 86400, "/");
-        setcookie('lang', $lang, time() + 86400, "/");
-
-
-        // var_dump($_GET['currency']);
-        // var_dump($_COOKIE['currency']);
-        // var_dump($currency);
-
-        // var_dump($_GET['lang']);
-        // var_dump($_COOKIE['lang']);
-        // var_dump($lang);
     ?>
     <div class="options-container">
         <div id="lang-dropdown">
@@ -87,12 +43,10 @@
             <div class="currency-dropdown-content">
                 <?php 
                     $all_currencies = ['SEK', 'USD', 'NOK', 'GBP', 'EUR', 'CAD'];
-                    foreach ($all_currencies as $loop_currency) {
+                    foreach ($all_currencies as $currency) {
                         ?>
-                        <a href='index.php?currency=<?=$loop_currency?>'><?=(string)$loop_currency?></a>
-                <?php
-                    }
-                ?>
+                        <a href='index.php?lang=<?=$lang?>&currency=<?=$currency?>'><?=(string)$currency?></a>
+                <?php } ?>
             </div>
         </div>
         <div id="searchbar">
@@ -111,7 +65,7 @@
 
     #GETS FROM URL
     $lang = $_GET['lang'];
-
+    $currency = $_GET['currency'];
     if ($lang == NULL) {
         $lang = $default_lang;
     }
@@ -154,7 +108,7 @@
 
             ?>
         <div class="container">
-            <a href="product.php?uid=<?=$current_article['uid']?>">
+            <a href="product.php?uid=<?=$current_article['uid']?>&lang=<?=$lang?>&currency=<?=$currency?>">
                 <img src="<?= $img_url ?>" draggable="false" alt="<?= $name ?>" 
                 "/>
             </a>
